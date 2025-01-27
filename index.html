@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>mihoyo全攻略-首页</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/config.js"></script>
+    <script src="./js/game.js"></script>
+</head>
+<body>
+    <h1>mihoyo全攻略</h1>
+
+    <div id="announcement" class="announcement">
+        <div class="announcement-container">
+            <h2 class="announcement-title">网站公告</h2>
+            <div class="announcement-content">
+            </div>
+        </div>
+    </div>
+
+    <div id="codeWindow" class="code-window">
+        <div class="code-container">
+            <h2 class="code-title">前瞻兑换码</h2>
+            <div class="code-list">
+                <div id="codeList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <div class="game-card">
+            <img src="./img/ys-logo.png" alt="原神logo未成功加载">
+            <a href="./html/ys.html">原神</a>
+        </div>
+
+        <div class="game-card">
+            <img src="./img/sr-logo.png" alt="星穹铁道logo未成功加载">
+            <a href="./html/sr.html">崩坏：星穹铁道</a>
+        </div>
+
+        <div class="game-card">
+            <img src="./img/zzz-logo.png" alt="绝区零logo未成功加载">
+            <a href="./html/zzz.html">绝区零</a>
+        </div>
+    </div>
+
+    <div class="admin-panel">
+        <button id="adminBtn" onclick="verifyGlobalAdmin()" class="admin-button">管理模式</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>mihoyo全攻略-管理面板</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/game.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <h1 style="text-align: center;">管理面板</h1>
+
+        <div class="admin-section">
+            <h2>游戏攻略管理</h2>
+            <div class="admin-links">
+                <a href="admin-ys.html">
+                    <img src="../img/ys-logo.png" alt="原神">
+                    <span>原神</span>
+                </a>
+                <a href="admin-sr.html">
+                    <img src="../img/sr-logo.png" alt="星穹铁道">
+                    <span>星穹铁道</span>
+                </a>
+                <a href="admin-zzz.html">
+                    <img src="../img/zzz-logo.png" alt="绝区零">
+                    <span>绝区零</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h2>公告管理</h2>
+            <textarea id="announcementEditor" placeholder="在此编辑公告内容（支持HTML标签）"></textarea>
+            <button onclick="saveAnnouncement()">更新公告</button>
+        </div>
+
+        <div class="admin-section">
+            <h2>兑换码管理</h2>
+            <div class="code-editor">
+                <div class="code-input-group">
+                    <select id="gameSelect">
+                        <option value="ys">原神</option>
+                        <option value="sr">星穹铁道</option>
+                        <option value="zzz">绝区零</option>
+                    </select>
+                    <select id="serverSelect">
+                        <option value="cn">国服</option>
+                        <option value="global">国际服</option>
+                    </select>
+                    <input type="text" id="codeInput" placeholder="输入兑换码">
+                    <button onclick="addCode()">添加兑换码</button>
+                </div>
+                <div class="current-codes">
+                    <h3>当前兑换码列表</h3>
+                    <div id="codeList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button onclick="exitAdmin()" class="home-button">退出管理模式</button>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            // 检查管理员权限
+            if (!sessionStorage.getItem('adminVerified')) {
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // 加载当前公告内容
+            const announcement = localStorage.getItem('announcement');
+            if (announcement) {
+                document.getElementById('announcementEditor').value = announcement;
+            }
+
+            // 加载兑换码列表
+            loadCodes();
+        }
+
+        function saveAnnouncement() {
+            const content = document.getElementById('announcementEditor').value;
+            localStorage.setItem('announcement', content);
+            localStorage.removeItem('announcementExpiry');
+            alert('公告已更新！');
+        }
+
+        function exitAdmin() {
+            sessionStorage.removeItem('adminVerified');
+            window.location.href = '../index.html';
+        }
+
+        // 加载兑换码
+        function loadCodes() {
+            const codes = JSON.parse(localStorage.getItem('redemptionCodes') || '[]');
+            const codeList = document.getElementById('codeList');
+            codeList.innerHTML = '';
+
+            codes.forEach((code, index) => {
+                const codeElement = document.createElement('div');
+                codeElement.className = 'code-item admin-code';
+                codeElement.innerHTML = `
+                    <div class="code-info">
+                        <span class="game-tag" style="background-color: ${CONFIG.games[code.game].color}">${getGameName(code.game)}</span>
+                        <span class="server-tag" style="background-color: ${CONFIG.servers[code.server].color}">${getServerName(code.server)}</span>
+                        <span class="code-text">${code.code}</span>
+                    </div>
+                    <button onclick="deleteCode(${index})" class="delete-button">删除</button>
+                `;
+                codeList.appendChild(codeElement);
+            });
+        }
+
+        // 添加兑换码
+        function addCode() {
+            const game = document.getElementById('gameSelect').value;
+            const server = document.getElementById('serverSelect').value;
+            const code = document.getElementById('codeInput').value.trim();
+
+            if (!code) {
+                alert('请输入兑换码！');
+                return;
+            }
+
+            const codes = JSON.parse(localStorage.getItem('redemptionCodes') || '[]');
+            codes.push({ game, server, code });
+            localStorage.setItem('redemptionCodes', JSON.stringify(codes));
+
+            // 清空输入
+            document.getElementById('codeInput').value = '';
+
+            loadCodes();
+        }
+
+        // 删除兑换码
+        function deleteCode(index) {
+            const codes = JSON.parse(localStorage.getItem('redemptionCodes') || '[]');
+            codes.splice(index, 1);
+            localStorage.setItem('redemptionCodes', JSON.stringify(codes));
+            loadCodes();
+        }
+
+        // 获取游戏名称
+        function getGameName(game) {
+            const games = {
+                ys: '原神',
+                sr: '星穹铁道',
+                zzz: '绝区零'
+            };
+            return games[game] || game;
+        }
+    </script>
+</body>
+</html> 
