@@ -119,7 +119,7 @@ function initTableData() {
     } else {
         tableData = [
             ['攻略名称', '攻略源-你的影月月', '攻略源-莴苣某人', '攻略源-其他'],
-            ['1', '111', '222', '333']
+            ['1', 'https://example.com/1', 'https://example.com/2', 'https://example.com/3']
         ];
         saveData();
     }
@@ -136,7 +136,15 @@ function updateTable() {
         const row = table.insertRow(-1);
         rowData.forEach((cellData, cellIndex) => {
             const cell = row.insertCell(-1);
-            cell.textContent = cellData;
+            if (rowIndex === 0 || cellIndex === 0) {
+                cell.textContent = cellData;
+            } else {
+                if (document.getElementById(ELEMENTS.viewTable)) {
+                    cell.innerHTML = `<a href="${cellData}" target="_blank">${cellData}</a>`;
+                } else {
+                    cell.textContent = cellData;
+                }
+            }
             
             if (document.getElementById(ELEMENTS.dataTable) && rowIndex > 0) {
                 cell.contentEditable = true;
@@ -153,7 +161,7 @@ function addRow() {
     const table = document.getElementById(ELEMENTS.dataTable);
     if (!table) return;
 
-    const newRow = ['新单元格 1', '新单元格 2', '新单元格 3', '新单元格 4'];
+    const newRow = ['新攻略', 'https://', 'https://', 'https://'];
     tableData.push(newRow);
     updateTable();
 }
