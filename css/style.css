@@ -78,35 +78,6 @@ h1 {
 }
 
 /* 游戏页面样式 */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: white;
-    box-shadow: 0 4px 6px rgba(21, 101, 192, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-th, td {
-    border: 1px solid #BBDEFB;
-    text-align: center;
-    padding: 12px;
-}
-
-th {
-    background-color: #1565C0;
-    color: white;
-    font-weight: bold;
-}
-
-tr:nth-child(even) {
-    background-color: #F5F9FF;
-}
-
-tr:hover {
-    background-color: #E3F2FD;
-}
 
 .button-container {
     margin: 20px 0;
@@ -141,12 +112,6 @@ button:hover {
 
 .admin-button:hover {
     background-color: #F4511E;
-}
-
-[contenteditable="true"]:focus {
-    outline: 2px solid #2196F3;
-    padding: 8px;
-    border-radius: 4px;
 }
 
 /* 管理面板样式 */
@@ -366,5 +331,18 @@ button:hover {
     color: #1565C0;
     margin-bottom: 15px;
     font-size: 1.5em;
+    text-align: center;
+}
+
+/* 基本表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
     text-align: center;
 } 
